@@ -30,7 +30,7 @@ public class AddUserServlet extends HttpServlet {
         }
         User user = new User(req.getParameter("id").isEmpty() ? 0 : Long.parseLong(req.getParameter("id"))
                 , name, mail, pass);
-        UserService service = new UserService();
+        UserService service = UserService.getInstance();
         if (service.addUser(user)) {
             resp.setStatus(HttpServletResponse.SC_OK);
             req.setAttribute("Users", service.getAllUsers());

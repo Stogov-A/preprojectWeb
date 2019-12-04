@@ -1,7 +1,10 @@
 package util;
 
 import model.User;
+import org.hibernate.SessionFactory;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.service.ServiceRegistry;
 
 import java.sql.Connection;
 import java.sql.Driver;
@@ -9,20 +12,16 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DBHelper {
-
-    static DBHelper dbHelper;
+    private static Connection connection;
+    private static Configuration configuration;
 
     private DBHelper() {
     }
 
-    public static DBHelper getDbHelper() {
-        if (dbHelper == null) {
-            dbHelper = new DBHelper();
-        }
-        return dbHelper;
-    }
-
     public static Connection getConnection() {
+        if (connection != null){
+            return connection;
+        }
         try {
             DriverManager.registerDriver((Driver) Class.forName("com.mysql.cj.jdbc.Driver").newInstance());
             StringBuilder url = new StringBuilder();
@@ -35,7 +34,7 @@ public class DBHelper {
                     append("password=dagmar").       //password
                     append("&serverTimezone=UTC");   //setup server time
             System.out.println("URL: " + url + "\n");
-            Connection connection = DriverManager.getConnection(url.toString());
+            connection = DriverManager.getConnection(url.toString());
             return connection;
         } catch (SQLException | InstantiationException | IllegalAccessException | ClassNotFoundException e) {
             e.printStackTrace();
@@ -43,12 +42,14 @@ public class DBHelper {
         }
     }
 
-    public Configuration getConfiguration(){
-        Configuration configuration = new Configuration();
+    public static Configuration getConfiguration(){
+        if (configuration != null){
+            return configuration;
+        }
+        configuration = new Configuration();
         configuration.addAnnotatedClass(User.class);
         String url = "jdbc:mysql://localhost:3306/db_example" +
                 "?verifyServerCertificate=false" +
-                "&useSSL=false" +
                 "&requireSSL=false" +
                 "&useLegacyDatetimeCode=false" +
                 "&amp" +

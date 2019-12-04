@@ -19,7 +19,7 @@ public class EditServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        UserService service = new UserService();
+        UserService service = UserService.getInstance();
         User user = service.getUserByID(Long.parseLong(req.getParameter("id")));
         req.setAttribute("user", user);
         if (req.getParameter("message") != null) {

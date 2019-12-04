@@ -2,16 +2,22 @@ package service;
 
 import dao.UserDAO;
 import dao.UserDaoFactory;
-import dao.UserJdbcDAO;
 import model.User;
-
-import java.sql.Connection;
-import java.sql.Driver;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 import java.util.List;
 
 public class UserService {
+    private UserDAO userDAO;
+    private static UserService userService;
+
+    private UserService() {
+    }
+
+    public static UserService getInstance() {
+        if (userService == null) {
+            userService = new UserService();
+        }
+        return userService;
+    }
 
     public List<User> getAllUsers() {
         UserDAO dao = getUserDAO();
@@ -43,8 +49,11 @@ public class UserService {
     }
 
     private UserDAO getUserDAO() {
-        UserDaoFactory userDaoFactory = new UserDaoFactory();
-        return userDaoFactory.getDao();
+        if (userDAO == null) {
+            UserDaoFactory userDaoFactory = new UserDaoFactory();
+            userDAO = userDaoFactory.getDao();
+        }
+        return userDAO;
     }
 }
 

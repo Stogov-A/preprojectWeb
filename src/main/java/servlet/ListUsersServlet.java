@@ -13,7 +13,7 @@ import java.io.IOException;
 public class ListUsersServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        UserService userService = new UserService();
+        UserService userService = UserService.getInstance();
         req.setAttribute("Users", userService.getAllUsers());
         getServletContext().getRequestDispatcher("/listUsers.jsp").forward(req, resp);
     }

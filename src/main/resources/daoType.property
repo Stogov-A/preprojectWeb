@@ -1,1 +1,2 @@
+#daoType = jdbc OR daoType = Hibernate
 daoType = jdbc
