@@ -6,6 +6,10 @@ import java.util.List;
 
 public interface UserDAO {
 
+    public boolean isBaseContainsAdmin();
+
+    public User getUserByNameAndPass(String name, String pass);
+
     public List<User> getAllUsers();
 
     public void addUser(User user);

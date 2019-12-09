@@ -2,7 +2,10 @@ package service;
 
 import dao.UserDAO;
 import dao.UserDaoFactory;
+import dao.UserJdbcDAO;
 import model.User;
+
+import java.sql.SQLException;
 import java.util.List;
 
 public class UserService {
@@ -10,6 +13,11 @@ public class UserService {
     private static UserService userService;
 
     private UserService() {
+    }
+
+    public User getUserByNameAndPass(String name, String pass) {
+        UserDAO dao = getUserDAO();
+        return dao.getUserByNameAndPass(name, pass);
     }
 
     public static UserService getInstance() {
@@ -27,6 +35,11 @@ public class UserService {
     public User getUserByID(long id) {
         UserDAO dao = getUserDAO();
         return dao.getUserById(id);
+    }
+
+    public boolean isBaseContainsAdmin(){
+        UserDAO dao = getUserDAO();
+        return dao.isBaseContainsAdmin();
     }
 
     public boolean addUser(User user) {
@@ -54,6 +67,15 @@ public class UserService {
             userDAO = userDaoFactory.getDao();
         }
         return userDAO;
+    }
+
+    public void createTable(){
+        UserJdbcDAO dao = (UserJdbcDAO) getUserDAO();
+        try {
+            dao.createTable();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }
 

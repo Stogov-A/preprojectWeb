@@ -19,7 +19,7 @@ public class DBHelper {
     }
 
     public static Connection getConnection() {
-        if (connection != null){
+        if (connection != null) {
             return connection;
         }
         try {
@@ -42,8 +42,8 @@ public class DBHelper {
         }
     }
 
-    public static Configuration getConfiguration(){
-        if (configuration != null){
+    public static Configuration getConfiguration() {
+        if (configuration != null) {
             return configuration;
         }
         configuration = new Configuration();
@@ -60,7 +60,7 @@ public class DBHelper {
         configuration.setProperty("hibernate.connection.username", "root");
         configuration.setProperty("hibernate.connection.password", "dagmar");
         configuration.setProperty("hibernate.show_sql", "true");
-        configuration.setProperty("hibernate.hbm2ddl.auto", "create");
+        configuration.setProperty("hibernate.hbm2ddl.auto", "auto");
         configuration.setProperty("hibernate.jdbc.time_zone", "UTC");
         return configuration;
     }

@@ -6,7 +6,7 @@
     <title>Title</title>
 </head>
 <body>
-<form method="get" action='<c:url value="/add" />' style="display:inline;">
+<form method="get" action='<c:url value="/admin/add" />' style="display:inline;">
     <input type="hidden" name="message" value="Create a new user">
     <input type="submit" value="Add new user">
 </form>
@@ -15,11 +15,11 @@
     <c:forEach var="user" items="${Users}">
         <li>
             <c:out value="ID: ${user.id}    NAME: ${user.name}    MAIL: ${user.mail}"/>
-            <form method="post" action='<c:url value="/edit" />' style="display:inline;">
+            <form method="post" action='<c:url value="/admin/edit" />' style="display:inline;">
                 <input type="hidden" name="id" value="${user.id}">
                 <input type="submit" value="Edit">
             </form>
-            <form method="post" action='<c:url value="/delete" />' style="display:inline;">
+            <form method="post" action='<c:url value="/admin/delete" />' style="display:inline;">
                 <input type="hidden" name="id" value="${user.id}">
                 <input type="submit" value="Delete">
             </form>

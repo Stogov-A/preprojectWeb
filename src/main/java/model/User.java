@@ -5,6 +5,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "users")
 public class User {
+
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,6 +20,9 @@ public class User {
     @Column(name = "pass")
     private String pass;
 
+    @Column(name = "role")
+    private String role;
+
     public User() {
     }
 
@@ -27,6 +31,11 @@ public class User {
         this.name = name;
         this.mail = mail;
         this.pass = pass;
+    }
+
+    public User(Long id, String name, String mail, String pass, String role) {
+        this(id, name, mail, pass);
+        this.role = role;
     }
 
     public Long getId() {
@@ -59,5 +68,13 @@ public class User {
 
     public void setPass(String pass) {
         this.pass = pass;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }

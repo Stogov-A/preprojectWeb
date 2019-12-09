@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: NoName
@@ -11,6 +12,15 @@
     <title>$Title$</title>
 </head>
 <body>
-<a href="/list">List Users</a>
+
+<form method="post" action="index" style="display:inline;">
+    <output>${message}</output><br><br>
+    <label>Name</label><br>
+    <input type="text" name="name"/><br><br>
+    <label>Password</label><br>
+    <input type="password" name="pass"><br><br>
+    <input type="submit" value="Sign in"/>
+</form>
+
 </body>
 </html>

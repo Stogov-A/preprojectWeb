@@ -14,6 +14,48 @@ public class UserJdbcDAO implements UserDAO {
     }
 
     @Override
+    public boolean isBaseContainsAdmin() {
+        boolean haveAdmin = false;
+        try {
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM users WHERE role = ?");
+            statement.setString(1, "admin");
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()){
+                haveAdmin = true;
+            }
+            statement.close();
+            resultSet.close();
+            return haveAdmin;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return haveAdmin;
+    }
+
+    @Override
+    public User getUserByNameAndPass(String name, String pass) {
+        User user = null;
+        PreparedStatement statement = null;
+        try {
+            statement = connection.prepareStatement("SELECT * FROM users" +
+                    " WHERE name = ? AND pass = ?");
+            statement.setString(1, name);
+            statement.setString(2, pass);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                user = new User(resultSet.getLong(1), resultSet.getString(2),
+                        resultSet.getString(3), resultSet.getString(4),
+                        resultSet.getString(5));
+            }
+            resultSet.close();
+            statement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return user;
+    }
+
+    @Override
     public List<User> getAllUsers() {
         List<User> list = new ArrayList<>();
         try {
@@ -34,19 +76,27 @@ public class UserJdbcDAO implements UserDAO {
 
     public void createTable() throws SQLException {
         Statement stmt = connection.createStatement();
-        stmt.execute("create table if not exists users (id bigint auto_increment, name varchar(256)," +
-                " mail varchar(256), pass varchar(256), primary key (id))");
+        stmt.execute("create table if not exists users (" +
+                "id bigint auto_increment," +
+                " name varchar(256)," +
+                " mail varchar(256)," +
+                " pass varchar(256)," +
+                " role varchar (256)," +
+                " primary key (id))");
         stmt.close();
     }
 
     @Override
     public void addUser(User user) {
         try {
-            PreparedStatement statement = connection.prepareStatement("insert into users values (?,?,?,?)");
+            PreparedStatement statement = connection.prepareStatement("insert into users values (?,?,?,?,?)");
             statement.setLong(1, user.getId());
             statement.setString(2, user.getName());
             statement.setString(3, user.getMail());
             statement.setString(4, user.getPass());
+            if (user.getRole() == null) {
+                statement.setString(5, "user");
+            }
             statement.execute();
             statement.close();
         } catch (SQLException e) {

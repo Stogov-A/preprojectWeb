@@ -17,6 +17,30 @@ public class UserHibernateDAO implements UserDAO {
     }
 
     @Override
+    public boolean isBaseContainsAdmin() {
+        session = sessionFactory.openSession();
+        Query query = session.createQuery("FROM User WHERE role = :role");
+        query.setString("role", "admin");
+        List<User>list = query.list();
+        session.close();
+        return list.size() > 0;
+    }
+
+    @Override
+    public User getUserByNameAndPass(String name, String pass) {
+        session = sessionFactory.openSession();
+        Query query = session.createQuery("FROM User WHERE name = :name AND pass = :pass");
+        query.setString("name", name);
+        query.setString("pass", pass);
+        List<User> list = query.list();
+        session.close();
+        if (list.size() > 0) {
+            return list.get(0);
+        }
+        return null;
+    }
+
+    @Override
     public List<User> getAllUsers() {
         session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
@@ -30,6 +54,9 @@ public class UserHibernateDAO implements UserDAO {
     public void addUser(User user) {
         session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
+        if(user.getRole() == null) {
+            user.setRole("user");
+        }
         session.save(user);
         transaction.commit();
         session.close();
