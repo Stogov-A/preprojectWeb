@@ -117,14 +117,15 @@ public class UserJdbcDAO implements UserDAO {
     }
 
     @Override
-    public void editUser(long userID, String newName, String newMail, String newPass) {
+    public void editUser(long userID, String newName, String newMail, String newPass, String role) {
         try {
             PreparedStatement statement = connection.prepareStatement("UPDATE users SET name = ?, mail = ?," +
-                    " pass= ? WHERE id = ? ");
+                    " pass= ?, role = ? WHERE id = ? ");
             statement.setString(1, newName);
             statement.setString(2, newMail);
             statement.setString(3, newPass);
-            statement.setLong(4, userID);
+            statement.setString(4, role);
+            statement.setLong(5, userID);
             statement.execute();
             statement.close();
         } catch (SQLException e) {

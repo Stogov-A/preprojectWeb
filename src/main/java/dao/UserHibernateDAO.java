@@ -74,14 +74,15 @@ public class UserHibernateDAO implements UserDAO {
     }
 
     @Override
-    public void editUser(long userID, String newName, String newMail, String newPass) {
+    public void editUser(long userID, String newName, String newMail, String newPass, String role) {
         session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
         Query query = session.createQuery("UPDATE User SET name = :name, mail = :mail," +
-                " pass= :pass WHERE id = :id ");
+                " pass= :pass, role = :role WHERE id = :id ");
         query.setString("name", newName);
         query.setString("mail", newMail);
         query.setString("pass", newPass);
+        query.setString("role", role);
         query.setLong("id", userID);
         query.executeUpdate();
         transaction.commit();

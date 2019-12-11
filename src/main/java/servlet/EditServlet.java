@@ -14,7 +14,7 @@ import java.io.IOException;
 public class EditServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
+        doPost(req, resp);
     }
 
     @Override
@@ -30,10 +30,11 @@ public class EditServlet extends HttpServlet {
                 String mail = req.getParameter("Mail");
                 String pass = req.getParameter("New password").isEmpty() ?
                         user.getPass() : req.getParameter("New password");
+                String role = req.getParameter("Role");
                 if (name.isEmpty() || mail.isEmpty()) {
                     req.setAttribute("message", "Wrong argument");
                 } else {
-                    service.editUser(user.getId(), name, mail, pass);
+                    service.editUser(user.getId(), name, mail, pass, role);
                     resp.setStatus(HttpServletResponse.SC_OK);
                     req.setAttribute("Users", service.getAllUsers());
                     getServletContext().getRequestDispatcher("/listUsers.jsp").forward(req, resp);

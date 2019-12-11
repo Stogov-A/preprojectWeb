@@ -12,19 +12,27 @@
 </form>
 </td>
 <h1>
-    <c:forEach var="user" items="${Users}">
-        <li>
-            <c:out value="ID: ${user.id}    NAME: ${user.name}    MAIL: ${user.mail}"/>
-            <form method="post" action='<c:url value="/admin/edit" />' style="display:inline;">
-                <input type="hidden" name="id" value="${user.id}">
-                <input type="submit" value="Edit">
-            </form>
-            <form method="post" action='<c:url value="/admin/delete" />' style="display:inline;">
-                <input type="hidden" name="id" value="${user.id}">
-                <input type="submit" value="Delete">
-            </form>
-        </li>
-    </c:forEach>
+
+    <table border="12">
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Mail</th>
+            <th>Role</th>
+            <th>Edit</th>
+            <th>Delete</th>
+        </tr>
+        <c:forEach var="user" items="${Users}">
+            <tr>
+                <td>${user.id}</td>
+                <td>${user.name}</td>
+                <td>${user.mail}</td>
+                <td>${user.role}</td>
+                <td><a href=/admin/edit?id=${user.id}>Edit</a></td>
+                <td><a href="/admin/delete?id=${user.id}">Delete</a></td>
+            </tr>
+        </c:forEach>
+    </table>
 </h1>
 </body>
 </html>

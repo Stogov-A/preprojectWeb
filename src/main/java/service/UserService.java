@@ -56,9 +56,9 @@ public class UserService {
         dao.deleteUserByID(id);
     }
 
-    public void editUser(long id, String name, String mail, String pass) {
+    public void editUser(long id, String name, String mail, String pass, String role) {
         UserDAO dao = getUserDAO();
-        dao.editUser(id, name, mail, pass);
+        dao.editUser(id, name, mail, pass, role);
     }
 
     private UserDAO getUserDAO() {

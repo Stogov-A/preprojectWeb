@@ -16,7 +16,7 @@ public interface UserDAO {
 
     public void deleteUserByID(long id);
 
-    public void editUser(long userID, String newName, String newMail, String newPass);
+    public void editUser(long userID, String newName, String newMail, String newPass, String role);
 
     public User getUserById(long id);
 }

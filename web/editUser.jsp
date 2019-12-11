@@ -1,4 +1,3 @@
-
 <%--
   Created by IntelliJ IDEA.
   User: NoName
@@ -19,8 +18,12 @@
     <input name="Name" value="${user.name}"/><br><br>
     <label>Mail</label><br>
     <input name="Mail" value="${user.mail}" type="text"/><br><br>
-    <label>New password</label><br><br>
+    <label>New password</label><br>
     <input name="New password" type="password"/><br><br>
+    <select name="Role">
+        <option>admin</option>
+        <option>user</option>
+    </select><br><br>
     <label>Enter password</label><br>
     <input name="Pass" type="password"><br>
     <input type="submit" value="Edit"/><br>
